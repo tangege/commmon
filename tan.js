@@ -14,8 +14,8 @@ tan.center = function (obj){
     if(obj){
         var objwidth = obj.offsetWidth;
         var objheight = obj.offsetHeight;
-        var windowwidth = document.body.clientWidth || document.documentElement.clientWidth;
-        var windowheight = document.body.clientHeight || document.documentElement.clientHeight;
+        var windowwidth = document.documentElement.clientWidth || document.body.clientWidth;
+        var windowheight = document.documentElement.clientHeight || document.body.clientHeight;
         var centerx = (windowwidth - objwidth) / 2;
         var centery = (windowheight - objheight) / 2;
         obj.style.left = centerx + 'px';

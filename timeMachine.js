@@ -33,7 +33,7 @@ TimeMachine.prototype.getCountDownTime = function (){
         "disdays": this.addZelo(disdays),
         "dishours": this.addZelo(dishours),
         "disminites": this.addZelo(disminites),
-        "disseconds": this.addZelo(disseconds),
+        "disseconds": this.addZelo(disseconds)
     };
     if(this.callback){
         this.callback(this.CTTime);

@@ -6,6 +6,12 @@
  * container 要放置在哪个容器 不填默认加载HTML文件到body里
  * time 什么时间开始替换 格式 2016/09/28 10:00:00 也可以是时间戳
  * timeServerURL 取当前时间的服务器地址 默认 http://timer.coolpad.com/timer1
+ * async 默认异步
+ * success 成功加载数据后执行的回调函数
+ * error 发生错误的回调函数
+ * serverTimeSuccess 成功获取服务器时间后的回调函数 可能是马上要进行页面替换 也可能是马上要倒计时
+ *
+ *
  *
  * 注意： container 设置为document或者html替换整个文档会导致jQuery的ready事件不执行 可以去掉ready事件然后把js代码放到body内部的底部
  * 或者把container设置为body或其他选择器/jQuery对象
@@ -17,7 +23,11 @@
             "url": "",
             "container": "body",
             "time": "",
-            "timeServerURL": "http://timer.coolpad.com/timer1"
+            "timeServerURL": "http://timer.coolpad.com/timer1",
+            "async": true,
+            "success": null,
+            "error": null,
+            "serverTimeSuccess": null
         }
     }
     _loadHTMLFile.prototype.init = function (opts) {
@@ -28,26 +38,35 @@
             }
         }
         if(this.settings["url"] == ""){
-            throw new Error("arguments 'url' must be need!")
+            if(_this.settings["error"]){
+                _this.settings["error"].call(_this);
+            }
+            throw new Error("arguments 'url' must be need!");
+        }
+        if(this.settings["time"] == -1){
+            if(_this.settings["error"]){
+                _this.settings["error"].call(_this);
+            }
+            return;
         }
         $.ajax({
             url: this.settings["timeServerURL"],
             type: "GET",
             crossDomain: true,
+            async: this.settings["async"],
             cache: false,
             dataType: 'jsonp',
             success: function(data){
-                if(data){
-                    _this.currenTime = parseInt(data/1000);
-                    if(_this.settings["time"] == ""){
-                        _this.settings["time"] = _this.currenTime;
-                    }
-                    _this.beforLoad();
+                _this.currenTime = parseInt(data/1000);
+                if(_this.settings["time"] == ""){
+                    _this.settings["time"] = _this.currenTime;
                 }
-
+                _this.beforLoad();
             },
-            error: function(){
-                alert("您的网络太慢了~");
+            error: function(xhr, status, err){
+                if(_this.settings["error"]){
+                    _this.settings["error"].call(_this);
+                }
             }
         })
 
@@ -57,7 +76,9 @@
         if(typeof this.settings["time"] === "string"){
             this.settings["time"] = new Date(this.settings["time"]).getTime();
         }
-
+        if(this.settings["serverTimeSuccess"]){
+            this.settings["serverTimeSuccess"].call(this);
+        }
         new TimeMachine().countDown({
             "distime": parseInt(this.settings["time"]/1000) - this.currenTime,
             "overFn": function (){
@@ -71,18 +92,22 @@
             url: this.settings["url"],
             type: "GET",
             dataType: "html",
+            async: this.settings["async"],
             cache: false,
             success: function(data){
-                if(data){
-                    if(_this.settings["container"] == "document"){
-                        document.write(data);
-                    }else {
-                        $(_this.settings["container"]).html(data);
-                    }
+                if(_this.settings["container"] == "document"){
+                    document.write(data);
+                }else {
+                    $(_this.settings["container"]).html(data);
+                }
+                if(_this.settings["success"]){
+                    _this.settings["success"].call(_this);
                 }
             },
-            error: function(){
-                alert("您的网络太慢了~");
+            error: function(xhr, status, err){
+                if(_this.settings["error"]){
+                    _this.settings["error"].call(_this);
+                }
             }
         })
     }
@@ -132,6 +157,5 @@
     TimeMachine.prototype.addZelo = function(n){
         return (parseInt(n) < 10 && parseInt(n) >= 0) ? '0' + n : n;
     };
-
 })(jQuery);
 

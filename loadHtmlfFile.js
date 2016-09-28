@@ -3,11 +3,11 @@
  *
  * 定时替换html内容
  * url 要替换的html地址
- * container 要放置在哪个容器 不填默认替换整个文档
+ * container 要放置在哪个容器 不填默认加载HTML文件到body里
  * time 什么时间开始替换 格式 2016/09/28 10:00:00 也可以是时间戳
  * timeServerURL 取当前时间的服务器地址 默认 http://timer.coolpad.com/timer1
  *
- * 注意： container 默认替换整个文档会导致jQuery的ready事件不执行 可以去掉ready事件然后把js代码放到body内部的底部
+ * 注意： container 设置为document或者html替换整个文档会导致jQuery的ready事件不执行 可以去掉ready事件然后把js代码放到body内部的底部
  * 或者把container设置为body或其他选择器/jQuery对象
  */
 ;(function($){
@@ -15,7 +15,7 @@
         this.currenTime = 0;
         this.settings = {
             "url": "",
-            "container": "document",
+            "container": "body",
             "time": "",
             "timeServerURL": "http://timer.coolpad.com/timer1"
         }
@@ -132,5 +132,6 @@
     TimeMachine.prototype.addZelo = function(n){
         return (parseInt(n) < 10 && parseInt(n) >= 0) ? '0' + n : n;
     };
+
 })(jQuery);
 

@@ -6,12 +6,11 @@
  * container 要放置在哪个容器 不填默认加载HTML文件到body里
  * time 什么时间开始替换 格式 2016/09/28 10:00:00 也可以是时间戳
  * timeServerURL 取当前时间的服务器地址 默认 http://timer.coolpad.com/timer1
+ * autoLoad 是否自动替换 默认true
  * async 默认异步
  * success 成功加载数据后执行的回调函数
  * error 发生错误的回调函数
  * serverTimeSuccess 成功获取服务器时间后的回调函数 可能是马上要进行页面替换 也可能是马上要倒计时
- *
- *
  *
  * 注意： container 设置为document或者html替换整个文档会导致jQuery的ready事件不执行 可以去掉ready事件然后把js代码放到body内部的底部
  * 或者把container设置为body或其他选择器/jQuery对象
@@ -24,6 +23,7 @@
             "container": "body",
             "time": "",
             "timeServerURL": "http://timer.coolpad.com/timer1",
+            "autoLoad": true,
             "async": true,
             "success": null,
             "error": null,
@@ -69,7 +69,6 @@
                 }
             }
         })
-
     }
     _loadHTMLFile.prototype.beforLoad = function (){
         var _this = this;
@@ -79,12 +78,19 @@
         if(this.settings["serverTimeSuccess"]){
             this.settings["serverTimeSuccess"].call(this);
         }
-        new TimeMachine().countDown({
-            "distime": parseInt(this.settings["time"]/1000) - this.currenTime,
-            "overFn": function (){
-                _this.load();
+        if(this.settings["autoLoad"]){
+            new TimeMachine().countDown({
+                "distime": parseInt(this.settings["time"]/1000) - this.currenTime,
+                "overFn": function (){
+                    _this.load();
+                }
+            })
+        }else {
+            if((parseInt(this.settings["time"]/1000) - this.currenTime) <= 0){
+                this.load();
             }
-        })
+        }
+
     }
     _loadHTMLFile.prototype.load = function (){
         var _this = this;
@@ -157,5 +163,6 @@
     TimeMachine.prototype.addZelo = function(n){
         return (parseInt(n) < 10 && parseInt(n) >= 0) ? '0' + n : n;
     };
+
 })(jQuery);
 

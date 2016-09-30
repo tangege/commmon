@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/9/30 0030.
  */
 /**
- * ÔÈËÙÔË¶¯
+ * åŒ€é€Ÿè¿åŠ¨
  * @param obj
  * @constructor
  */
@@ -57,7 +57,7 @@ Uniform.prototype = {
 
 
 /**
- * º¯ÊıÊ½ÔÈËÙÔË¶¯
+ * å‡½æ•°å¼åŒ€é€Ÿè¿åŠ¨
  * @param obj
  * @param opts
  * @param speed

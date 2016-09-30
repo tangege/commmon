@@ -10,6 +10,8 @@ tan.time.gettime = function(){
 }
 
 
+
+
 tan.center = function (obj){
     if(obj){
         var objwidth = obj.offsetWidth;

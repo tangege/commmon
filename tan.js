@@ -9,6 +9,7 @@ tan.time.gettime = function(){
     return +new Date;
 }
 
+
 //ÔªËØ¾ÓÖĞ
 tan.center = function (obj){
     if(obj){

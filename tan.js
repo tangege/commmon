@@ -1,16 +1,12 @@
 /**
  * Created by Administrator on 2016/9/10 0010.
  */
-var tan = {};
 
 tan.time = {};
 
 tan.time.gettime = function(){
     return +new Date;
 }
-
-
-
 
 tan.center = function (obj){
     if(obj){

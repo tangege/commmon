@@ -128,3 +128,53 @@ function bufferMove(obj, json, fn) {
 function getStyle (obj, attr){
     return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, false)[attr];
 }
+
+
+/**
+ * input事件
+ * @param obj
+ * @param fn
+ */
+function addOninputEvent(obj, fn) {
+    addEvent(obj, "input", fn);
+    addEvent(obj, "propertychange", fn);
+    if(checkIE() == "IE9"){
+        addEvent(obj, "cut", function () {
+            setTimeout(function () {
+                fn.call(obj);
+            },10);
+        });
+        addEvent(obj, "keydown", function (e) {
+            if(e.keyCode == 8 || e.keyCode == 46){
+                fn.call(obj);
+            }
+        });
+    }
+}
+
+function addEvent (obj, type, fn){
+    if(obj.addEventListener){
+        obj.addEventListener(type, fn, false);
+    }else if(obj.attachEvent){
+        obj.attachEvent("on" + type, fn);
+    }else {
+        obj["on" + type] = fn;
+    }
+}
+
+function checkIE (){
+    var result = "";
+    var version = navigator.appVersion;
+    if(version.indexOf("MSIE 6.0") >= 0){
+        result = "IE6";
+    }else if(version.indexOf("MSIE 7.0") >= 0){
+        result = "IE7";
+    }else if(version.indexOf("MSIE 8.0") >= 0){
+        result = "IE8";
+    }else if(version.indexOf("MSIE 9.0") >= 0){
+        result = "IE9";
+    }else if(version.indexOf("MSIE 10.0") >= 0){
+        result = "IE10";
+    }
+    return result;
+}

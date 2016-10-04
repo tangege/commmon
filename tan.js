@@ -39,10 +39,10 @@ function random (start, end){
         this.originDom = [];
     }
     _Operation.prototype.init = function (arg) {
-        if(arg.indexOf("#") == 0){
+        if(arg.charAt(0) == "#"){
             //id
             this.originDom = this.dom = this.getId(arg.substring(1));
-        }else if(arg.indexOf(".") == 0){
+        }else if(arg.charAt(0) == "."){
             //class
             this.originDom = this.dom = this.getByClass(arg.substring(1));
         }else {

@@ -65,9 +65,15 @@ function random (start, end){
         var resultElement = [];
         var e = oParent.getElementsByTagName("*");
         for (var i = 0; i < e.length; i++) {
-            if (e[i].className == classname) {
-                resultElement.push(e[i]);
+            var calssnames =  e[i].className.split(" ");
+            if(calssnames && calssnames.length){
+                for( var j = 0, len = calssnames.length; j < len; j++){
+                    if (calssnames[j] == classname) {
+                        resultElement.push(e[i]);
+                    }
+                }
             }
+
         }
         return resultElement;
     }

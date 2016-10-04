@@ -19,7 +19,6 @@ function center (obj){
         obj.style.top = centery + 'px';
     }
 }
-
 /**
  * 随机数
  * @param start 开始数
@@ -31,150 +30,96 @@ function random (start, end){
 }
 
 /**
- * hover事件
- * @param obj
- * @param fnenter 鼠标进入事件
- * @param fnleve 鼠标离去事件
+ * 选择器
  */
-function hover (obj, fnenter, fnleve){
-    if(fnenter){
-        addEvent(obj, "mouseenter", fnenter);
-    }
-    if(fnleve){
-        addEvent(obj, "mouseleave", fnleve);
-    }
-}
+;(function (window) {
 
-/**
- * 注册事件
- * @param obj
- * @param type
- * @param fn
- */
-function addEvent (obj, type, fn){
-    if(obj.addEventListener){
-        obj.addEventListener(type, fn, false);
-    }else if(obj.attachEvent){
-        obj.attachEvent("on" + type, fn);
-    }else {
-        obj["on" + type] = fn;
+    function _Operation (){
+        this.dom = [];
+        this.originDom = [];
     }
-}
-
-/**
- * 取消注册事件
- * @param obj
- * @param type
- * @param fn
- */
-function removeEvent (obj, type, fn){
-    if(obj.removeEventListener){
-        obj.removeEventListener(type, fn, false);
-    }else if(obj.detachEvent){
-        obj.detachEvent("on" + type, fn);
-    }else {
-        obj["on" + type] = null;
+    _Operation.prototype.init = function (arg) {
+        if(arg.indexOf("#") == 0){
+            //id
+            this.originDom = this.dom = this.getId(arg.substring(1));
+        }else if(arg.indexOf(".") == 0){
+            //class
+            this.originDom = this.dom = this.getByClass(arg.substring(1));
+        }else {
+            //tag
+            this.originDom = this.dom = this.getByTage(arg);
+        }
+        return this;
     }
-}
-
-/**
- * 缓冲运动
- * @param obj
- * @param json
- * @param fn
- */
-function bufferMove(obj, json, fn) {
-    clearInterval(obj.timer)
-    obj.timer = setInterval(function() {
-        for (var attr in json) {
-            var isOver = false;
-            var iCurren;
-            if (attr == 'opacity') {
-                iCurren = parseInt(parseFloat(getStyle(obj, attr)).toFixed(2) * 100);
-            } else {
-                iCurren = parseInt(getStyle(obj, attr));
-            }
-            var speed = (json[attr] - iCurren) / 8;
-            speed = speed < 0 ? Math.floor(speed) : Math.ceil(speed);
-
-            if (iCurren == json[attr]) {
-                isOver = true;
-            } else {
-                if (attr == 'opacity') {
-                    obj.style.filter = "alpha(opacity=" + (iCurren + speed) + ")";
-                    obj.style.opacity = (iCurren + speed) / 100;
-                } else {
-                    obj.style[attr] = iCurren + speed + 'px';
-                }
+    _Operation.prototype.getId = function (id) {
+        if(id){
+            return [document.getElementById(id)];
+        }else {
+            throw new Error('you must need an id argument');
+        }
+    }
+    _Operation.prototype.getByClass = function (classname, oParent) {
+        if(!oParent){
+            oParent = document;
+        }
+        var resultElement = [];
+        var e = oParent.getElementsByTagName("*");
+        for (var i = 0; i < e.length; i++) {
+            if (e[i].className == classname) {
+                resultElement.push(e[i]);
             }
         }
-        if (isOver) {
-            clearInterval(obj.timer);
-            if (fn) {
-                fn();
-            }
+        return resultElement;
+    }
+    _Operation.prototype.getByTage = function (tag) {
+        if(tag){
+            var elements = document.getElementsByTagName(tag);
+            return this.makeArray(elements);
+        }else {
+            throw new Error('you must need an tag argument');
         }
-
-    }, 30);
-
-}
-
-/**
- * 获取样式
- * @param obj
- * @param attr
- * @returns {*}
- */
-function getStyle (obj, attr){
-    return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, false)[attr];
-}
-
-
-/**
- * input事件
- * @param obj
- * @param fn
- */
-function addOninputEvent(obj, fn) {
-    addEvent(obj, "input", fn);
-    addEvent(obj, "propertychange", fn);
-    if(checkIE() == "IE9"){
-        addEvent(obj, "cut", function () {
-            setTimeout(function () {
-                fn.call(obj);
-            },10);
-        });
-        addEvent(obj, "keydown", function (e) {
-            if(e.keyCode == 8 || e.keyCode == 46){
-                fn.call(obj);
+    }
+    _Operation.prototype.css = function (opts) {
+        this.each(this.dom, function (index, value) {
+            for(var attr in opts){
+                this.style[attr] = opts[attr];
             }
-        });
+        })
     }
-}
+    _Operation.prototype.each = function (obj, fn) {
+        for(var x in obj){
+            fn.call(obj[x], x, obj[x]);
+        }
+    }
+    _Operation.prototype.makeArray = function (elementobjs) {
+        var result = []
+        this.each(elementobjs, function (index, obj) {
+            result.push(this);
+        })
+        return result;
+    }
+    _Operation.prototype.get = function (index) {
+        if(typeof index === 'undefined'){
+            return this.dom;
+        }else {
+            return this.dom[index];
+        }
+    }
+    _Operation.prototype.eq = function (index) {
+        if(typeof index === 'undefined'){
+            throw new Error("argument 'index' must be need! ");
+        }else {
+            this.dom = [this.originDom[index]];
+            return this;
+        }
+    }
 
-function addEvent (obj, type, fn){
-    if(obj.addEventListener){
-        obj.addEventListener(type, fn, false);
-    }else if(obj.attachEvent){
-        obj.attachEvent("on" + type, fn);
-    }else {
-        obj["on" + type] = fn;
+    function _out (arg){
+        return new _Operation().init(arg);
     }
-}
 
-function checkIE (){
-    var result = "";
-    var version = navigator.appVersion;
-    if(version.indexOf("MSIE 6.0") >= 0){
-        result = "IE6";
-    }else if(version.indexOf("MSIE 7.0") >= 0){
-        result = "IE7";
-    }else if(version.indexOf("MSIE 8.0") >= 0){
-        result = "IE8";
-    }else if(version.indexOf("MSIE 9.0") >= 0){
-        result = "IE9";
-    }else if(version.indexOf("MSIE 10.0") >= 0){
-        result = "IE10";
-    }
-    return result;
-}
+    window.oPeration = window.$ = _out;
+
+})(window);
+
+

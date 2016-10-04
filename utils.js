@@ -1,20 +1,6 @@
 /**
  * Created by Administrator on 2016/9/30 0030.
  */
-/**
- *添加input事件
- * @param {Object} obj
- * @param {Object} fn
- */
-Tan.addOninputEvent = function(obj, fn) {
-    if (obj.onpropertychange) {
-        obj.onpropertychange = fn;
-    } else {
-        obj.oninput = fn;
-    }
-}
-
-
 //设置cookie
 Tan.setCookie = function(cname, cvalue, exdays) {
     var d = new Date();

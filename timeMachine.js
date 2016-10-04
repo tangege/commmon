@@ -1,7 +1,13 @@
 /**
  * Created by tanyonglong on 2016/9/26.
+ *
+ * 倒计时
+ *
+ * distime 距离的秒数
+ * callback 倒计时回调函数
+ * overFn 倒计时结束函数
+ *
  */
-
 function TimeMachine (){
     this.CTTime = null;
     this.timer = null;

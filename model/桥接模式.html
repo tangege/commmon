@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+
+    <style type="text/css">
+
+
+    </style>
+
+</head>
+
+<body>
+
+<button id="btn">发送</button>
+
+<script src="../js/tan.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+    var btn = document.getElementById('btn');
+    addEvent(btn,'click',brige);
+
+    //桥接模式
+    function brige(){
+        var msg = this.innerHTML;
+        ajax(msg);
+    }
+
+    function ajax(msg){
+        alert(msg);
+    }
+
+    //事件监听
+    function addEvent (obj, type, fn){
+        if(obj.addEventListener){
+            obj.addEventListener(type, fn, false);
+        }else if(obj.attachEvent){
+            obj.attachEvent("on" + type, fn);
+        }else {
+            obj["on" + type] = fn;
+        }
+    }
+
+
+    //特权函数
+    var PubliClass = function(){
+
+        var name = 'aaa';
+        this.getName = function(){
+            return name;
+        }
+
+    }
+
+    var p = new PubliClass();
+    alert(p.getName());
+
+
+    //把多个单元组织在一起
+
+    var Class1 = function(a,b,c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    var Class2 = function(d,e){
+        this.d = d;
+        this.e = e;
+    }
+
+    var BrigeClass = function(a,b,c,d,e){
+        this.class1 = new Class1(a,b,c);
+        this.class2 = new Class2(d,e);
+    }
+
+
+
+</script>
+</body>
+
+</html>

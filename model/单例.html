@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script !src="">
+
+    //1.简单单体
+    var obj = {
+        attr1: "aa",
+        attr2: "bb",
+        method1: function () {
+
+        },
+        method2: function () {
+
+        },
+    }
+
+
+    //划分命名空间
+    var tan = {};
+    tan.time = {
+        gettime: function () {
+            return new Date();
+        }
+    }
+
+
+    //2.闭包单体
+
+    var tan = {};
+
+    tan.gettime = (function () {
+
+        var a = "aa";
+        var b = "bb";
+        var c = function () {
+            alert('aaaa');
+        };
+        var d = function () {
+            alert('fffff')
+        };
+
+        return {
+            attr1: a,
+            attr2: b,
+            method1: c,
+            method2: d,
+        }
+
+    })();
+
+
+    //3.惰性单体
+
+    var obj = (function () {
+
+        var uniqeInstance;
+
+        function init (){
+            var a = "aa";
+            var b = "bb";
+            var c = function () {
+                alert('aaaa');
+            };
+            var d = function () {
+                alert('fffff')
+            };
+
+            return {
+                attr1: a,
+                attr2: b,
+                method1: c,
+                method2: d,
+            }
+        }
+
+        return {
+
+            getInstance: function () {
+                if(!uniqeInstance){
+                    uniqeInstance = init();
+                }
+                return uniqeInstance;
+            }
+        }
+
+    })();
+
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -30,6 +30,73 @@ function random (start, end){
 }
 
 /**
+ * 继承
+ */
+var extend = (function(){
+    var e = function(sub , sup){
+        var F = new Function();
+        F.prototype = sup.prototype;
+        sub.prototype = new F();
+        sub.prototype.constructor = sub;
+        sub.supClass = sup.prototype;
+        if(sup.prototype.constructor == Object.prototype.constructor){
+            sup.prototype.constructor = sup;
+        }
+    }
+
+    return function(sub,sup){
+        e(sub,sup);
+    };
+
+})();
+
+
+/**
+ * 接口
+ * @param name
+ * @param methods
+ * @constructor
+ */
+function Interface (name ,methods){
+    if(arguments.length != 2){
+        throw new Error('Interface constructor called with ' + arguments.length
+            + 'arguments, but expected exactly 2.');
+    }
+    this.name = name;
+    this.methods = [];
+    for(var i = 0;i < methods.length;i++){
+        if(typeof methods[i] != 'string'){
+            throw new Error('Interface constructor expected method names to be '
+                + 'passed in as a string.');
+        }
+        this.methods.push(methods[i]);
+    }
+}
+Interface.ensureImplements = function(object){
+    if(arguments.length < 2){
+        throw new Error("Function Interface.ensureImplements called with " + arguments.length
+            + " arguments, but expected at least 2.");
+    }
+    for(var i = 1,len = arguments.length;i < len;i++){
+        var interface = arguments[i];
+        if(interface.constructor != Interface){
+            throw new Error("Function Interface.ensureImplements expects arguments "
+                + "two and above to be instances of Interface.");
+        }
+        for(var j = 0,methodslen = interface.methods.length;j < methodslen;j++){
+            var method = interface.methods[j];
+            if(!object[method] || typeof object[method] !== 'function'){
+                throw new Error("Function Interface.ensureImplements: object " +
+                    "does not implements the " + interface.name + " interface.Method " +
+                    method + " was not found.");
+            }
+        }
+    }
+}
+
+
+
+/**
  * 选择器
  */
 ;(function (window) {

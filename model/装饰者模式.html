@@ -1,0 +1,73 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+
+    <script>
+
+
+        function ABicycle(){ }
+        ABicycle.prototype = {
+            wash : function(){ },
+            ride : function(){ },
+            getPrice : function(){
+                return 999;
+            }
+        }
+
+        //继承
+        function extend( subClass, superClass ){
+            var F = function(){};
+            F.prototype = superClass.prototype;
+            subClass.prototype = new F();
+            subClass.prototype.constructor = subClass;
+
+            // 此处指向superClass的prototype 比直接保存superClass使用更为方便
+            subClass.superclass = superClass.prototype;
+            if( superClass.prototype.constructor === Object.prototype.constructor ){
+                superClass.prototype.constructor = superClass;
+            }
+        }
+
+
+        function BicycleDecorator( bicycle ){
+            this.bicycle = bicycle;
+        }
+        BicycleDecorator.prototype = {
+            wash : function(){
+                return this.bicycle.wash();
+            },
+            ride : function(){
+                return this.bicycle.ride();
+            },
+            getPrice : function(){
+                return this.bicycle.ride();
+            }
+        }
+
+        var BicycleBell = function( bicycle ){
+            // 继承 BicycleDecorator 内部 this定义的数据或者方法
+            BicycleBell.superclass.constructor.call( this, bicycle );
+        }
+        // 继承 BicycleDecorator.prototype 并且添加 BicycleBell.superclass 指向 BicycleDecorator.prototype
+        extend( BicycleBell, BicycleDecorator );
+        // 添加或者修改
+        BicycleBell.prototype.bell = function(){
+            console.log("ding! ding! ding!");
+        }
+        BicycleBell.prototype.getPrice = function(){
+            return this.bicycle.getPrice() + 100;
+        }
+
+        var bicycleA = new ABicycle();
+        bicycleA = new BicycleBell( bicycleA );
+
+        alert(bicycleA.getPrice());
+
+    </script>
+</body>
+</html>

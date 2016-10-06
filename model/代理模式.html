@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script !src="">
+
+    //1. 房东出租类;
+    function Fangdong() {
+        this.room = '房间名';
+    }
+    Fangdong.prototype.chuzu = function() {
+        console.log('房东出租房间: ' + this.room);
+    }
+
+    //2. 中介代理类:
+    function Proxy() {
+        this.fangdong = new Fangdong();
+    }
+    Proxy.prototype.chuzu = function() {
+        this.fangdong.chuzu();
+        console.log('出租后收中介费');
+    }
+
+    //房客请中介帮找房子;
+    var proxy = new Proxy();
+    proxy.chuzu();
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+
+
+		<script type="text/javascript">
+
+			// 500 order
+			var order500 = function (orderType,pay,stock) {
+				if(orderType === 1 && pay === true){
+					console.log('500 rmb deposit, get 100 coupon ')
+				} else {
+					return 'nextSuccessor'  // unknow the next node but always pass to next.
+				}
+			};
+
+			var order200 = function (orderType,pay,stock) {
+				if(orderType === 2 && pay === true){
+					console.log('200 rmb deposit , get 50 coupon')
+				} else{
+					return 'nextSuccessor';
+				}
+			};
+
+			var orderNormal = function (orderType,pay,stock) {
+				if(stock > 0){
+					console.log('normal buy no coupon')
+				} else{
+					console.log('the stock lack')
+				}
+			};
+
+			var Chain = function (fn) {
+				this.fn = fn;
+				this.successor = null;
+			}
+			Chain.prototype.setNextSuccessor = function (successor) {
+				return this.successor = successor;
+			}
+			Chain.prototype.passRequest = function () {
+				var ret = this.fn.apply(this,arguments);
+				if(ret === 'nextSuccessor'){
+					return this.successor && this.successor.passRequest.apply(this.successor,arguments)
+				}
+				return ret;
+			}
+
+			//现在我们把3个订单函数分别包装成职责链的节点
+			var chainOrder500 = new Chain(order500);
+			var chainOrder200 = new Chain(order200);
+			var chainOrderNormal = new Chain(orderNormal);
+
+			//最后把请求传递给第一个节点
+			chainOrder500.setNextSuccessor(chainOrder200)
+			chainOrder200.setNextSuccessor(chainOrderNormal)
+
+			//最后把请求传递给第一个节点
+			//test
+			chainOrder500.passRequest(1,true,500);
+			chainOrder500.passRequest(2,true,500);
+
+
+		</script>
+
+	</body>
+
+</html>

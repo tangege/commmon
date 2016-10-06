@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+
+		<script type="text/javascript" src="js/CommonUtils.js"></script>
+		<script type="text/javascript">
+
+
+
+			var CreateCommand = function( receiver ){
+				this.receiver = receiver;
+			}
+			CreateCommand.prototype.execute = function() {
+				this.receiver.action();
+			}
+
+			var TVOn = function() {}
+			TVOn.prototype.action = function() {
+				alert("TVOn");
+			}
+
+			var TVOff = function() {}
+			TVOff.prototype.action = function() {
+				alert("TVOff");
+			}
+
+			var Invoker = function( tvOnCommand, tvOffCommand ) {
+				this.tvOnCommand = tvOnCommand;
+				this.tvOffCommand = tvOffCommand;
+			}
+			Invoker.prototype.tvOn = function() {
+				this.tvOnCommand.execute();
+			}
+			Invoker.prototype.tvOff = function() {
+				this.tvOffCommand.execute();
+			}
+
+			var tvOnCommand = new CreateCommand( new TVOn() );
+			var tvOffCommand = new CreateCommand( new TVOff() );
+			var invoker = new Invoker( tvOnCommand, tvOffCommand );
+			invoker.tvOn();
+			invoker.tvOff();
+
+
+		</script>
+
+	</body>
+
+</html>

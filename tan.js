@@ -250,3 +250,40 @@ function formateData (value){
         throw new Error(e);
     }
 }
+
+//是否数字
+function isNumber (value) {
+    if(typeof value === "number"){
+        return true;
+    }else if(typeof value === "object" && value.constructor === Number){
+        return true;
+    }else {
+        return false;
+    }
+}
+//是否字符串
+function isString (value) {
+    if(typeof value === "string"){
+        return true;
+    }else if(typeof value === "object" && value.constructor === String){
+        return true;
+    }else {
+        return false;
+    }
+}
+//是否数组
+function isArray (value) {
+    if( value.constructor === Array ){
+        return true;
+    }else {
+        return false;
+    }
+}
+//是否函数
+function isFunction (value) {
+    if( typeof value === "function" ){
+        return true;
+    }else {
+        return false;
+    }
+}

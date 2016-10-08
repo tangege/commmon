@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<script type="text/javascript" src="js/CommonUtils.js"></script>
+		<script type="text/javascript">
+			function $() {
+				var elments = new Array();
+				for (var i = 0; i < arguments.length; i++) {
+					var element = arguments[i];
+					if (typeof element == 'string') {
+						element = document.getElementById(element);
+					}
+					if (arguments.length == 1) {
+						return element;
+					}
+					elments.push(element);
+				}
+				return elements;
+			}
+			
+			YAHOO.util.Dom.get = function(el) {
+				if (YAHOO.lang.isString(el)) {
+					return document.getElementById(el);
+				}
+				if (YAHOO.lang.isArray(el)) {
+					var c = [];
+					for (var i = 0, len = el.length; i < len; i++) {
+						c[c.length] = YAHOO.util.Dom.get(el[i]);
+					}
+					return c;
+				}
+				if (el) {
+					return el;
+				}
+				return null;
+			}
+
+			function $2getAdapter() {
+				return YAHOO.util.Dom.get(arguments);
+			}
+
+			function get2$Adapter(el) {
+				return $.apply(window, el instanceof Array ? el : [el]);
+			}
+			
+			//对于从Prototype改投YUI的人应该如下使用：
+			$ = $2getAdapter;
+			//相反的如下使用：
+			YAHOO.util.Dom.get = get2$Adapter;
+		</script>
+
+	</body>
+
+</html>

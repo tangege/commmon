@@ -160,3 +160,91 @@ function checkIE (){
     window.onDOMContentLoaded = _onDOMContentLoaded;
 
 })(window);
+
+
+/**
+ * 绑定事件带参数 解绑
+ * @type {{cache: null, bind: events.bind, unbind: events.unbind, _save: events._save, _delete: events._delete, _get: events._get, _isInArray: events._isInArray}}
+ */
+
+var events = {
+    cache: null,
+    bind: function (obj, type, fn, args){
+        try{
+            var eventHander = fn;
+            if(args){
+                if(args.constructor == Array){
+                    //数组
+                    eventHander = function (e){
+                        fn.apply(obj, args);
+                    }
+                }else {
+                    //多个参数
+                    var fnArgs = [];
+                    for(var i = 3, len = arguments.length; i < len; i++){
+                        fnArgs.push(arguments[i]);
+                    }
+                    eventHander = function (e){
+                        fn.apply(obj, fnArgs);
+                    }
+                }
+            }
+            if(window.attachEvent){//IE
+                obj.attachEvent("on" + type, eventHander );
+            }else{//FF
+                obj.addEventListener(type, eventHander, false);
+            }
+            this._save(obj, type, fn, eventHander);
+
+        }catch (e) {
+            throw new Error(e);
+        }
+    },
+    unbind: function (obj, type, fn){
+        var typeEventArr = this._get(obj, type, fn);
+        if(typeEventArr.length){
+            if(window.detachEvent){//IE
+                obj.detachEvent("on" + type, typeEventArr[2] );
+            }else{//FF
+                obj.removeEventListener(type, typeEventArr[2], false);
+            }
+            this._delete(obj, type, fn);
+        }
+    },
+    _save: function (obj, type, fn, otherFN){
+        this.cache = this.cache || {};
+        this.cache[type] = this.cache[type] || [];
+        if(this._isInArray(obj, type, fn) === -1){
+            this.cache[type].push([obj, fn, otherFN]);
+        }
+    },
+    _delete: function (obj, type, fn) {
+        var flag = false;
+        if(this._isInArray(obj, type, fn) !== -1){
+            this.cache[type].splice(this._isInArray(obj, type, fn),1);
+            flag = true;
+        }
+        return flag;
+    },
+    _get: function (obj, type, fn) {
+        var result = [];
+        if(this._isInArray(obj, type, fn) !== -1){
+            result = this.cache[type][this._isInArray(obj, type, fn)];
+        }
+        return result;
+    },
+    _isInArray: function (obj, type, fn) {
+        if(this.cache){
+            if(this.cache[type]){
+                for( var i = 0,len = this.cache[type].length;i < len;i++ ){
+                    var o = this.cache[type][i][0];
+                    var f = this.cache[type][i][1];
+                    if(o == obj && f == fn){
+                        return i;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}

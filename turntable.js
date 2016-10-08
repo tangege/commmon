@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2016/9/25 0025.
+ * Created by tanyonglong on 2016/9/25 0025.
  */
 
 function Turntable (obj){
@@ -11,14 +11,14 @@ function Turntable (obj){
     this.isCallbackRuned = false;
     this.settings = {
         "Jackpot": [
-            [1,0,'Ò»µÈ½±'],
-            [2,60,'¶şµÈ½±'],
-            [3,120,'ÈıµÈ½±'],
-            [4,180,'ËÄµÈ½±'],
-            [5,240,'ÎåµÈ½±'],
-            [6,300,'ÁùµÈ½±']
+            [1,0,'ä¸€ç­‰å¥–'],
+            [2,60,'äºŒç­‰å¥–'],
+            [3,120,'ä¸‰ç­‰å¥–'],
+            [4,180,'å››ç­‰å¥–'],
+            [5,240,'äº”ç­‰å¥–'],
+            [6,300,'å…­ç­‰å¥–']
         ],
-        "num": 5,//Ä¬ÈÏ×ª5È¦
+        "num": 5,//é»˜è®¤è½¬5åœˆ
         "callback": null,
         "grade": 0,
         "speed": 3,
@@ -47,7 +47,7 @@ Turntable.prototype.init = function (opts) {
         }
         var flag = "";
         if(this.isSupportedTransform()){
-            //Ö§³Öcss3
+            //æ”¯æŒcss3
             this.setCss();
             this.addEvent();
             flag = "notie"

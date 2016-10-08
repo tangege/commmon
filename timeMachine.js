@@ -1,11 +1,11 @@
 /**
  * Created by tanyonglong on 2016/9/26.
  *
- * µ¹¼ÆÊ±
+ * å€’è®¡æ—¶
  *
- * distime ¾àÀëµÄÃëÊı
- * callback µ¹¼ÆÊ±»Øµ÷º¯Êı
- * overFn µ¹¼ÆÊ±½áÊøº¯Êı
+ * distime è·ç¦»ç›®æ ‡æ—¶é—´è¿˜æœ‰å¤šå°‘ç§’
+ * callback æ²¡å€’ä¸€ç§’å›è°ƒå‡½æ•°
+ * overFn å€’è®¡æ—¶ç»“æŸå›è°ƒå‡½æ•°
  *
  */
 function TimeMachine (){

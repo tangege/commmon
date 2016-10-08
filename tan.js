@@ -287,3 +287,88 @@ function isFunction (value) {
         return false;
     }
 }
+//判断空对象
+function isEmptyObject (obj) {
+    var t;
+    for (t in obj)
+        return !1;
+    return !0
+}
+
+//获取url参数 值
+var URL = {
+    settings: {
+        url: "",
+    },
+    init: function (opts) {
+        try {
+            if(opts){
+                for(var attr in opts){
+                    this.settings[attr] = opts[attr];
+                }
+            }
+            if( this.settings["url"] === "" ) {
+                this.settings["url"] = window.location;
+            }
+        }catch (e) {
+            throw new Error(e);
+        }
+        return this;
+    },
+    getHash: function () {
+        return this.settings["url"].hash;
+    },
+    getHost: function () {
+        return this.settings["url"].host;
+    },
+    getHostName: function () {
+        return this.settings["url"].hostname;
+    },
+    getHref: function () {
+        return this.settings["url"].href;
+    },
+    getPathName: function () {
+        return this.settings["url"].pathname;
+    },
+    getPort: function () {
+        return this.settings["url"].port;
+    },
+    getProtocol: function () {
+        return this.settings["url"].protocol;
+    },
+    getSearch: function () {
+        return this.settings["url"].search;
+    },
+    getPameters: function (pameter) {
+        var query = "";
+        if(typeof this.settings["url"] === "string"){
+            var url = this.settings["url"];
+            var end = url.length;
+            if(url.lastIndexOf("#") > -1){
+                end = url.lastIndexOf("#");
+            }
+            query = this.settings["url"].substring( url.indexOf("?"), end );
+        }else {
+            query = this.getSearch();
+        }
+        var result = {};
+        if(query){
+            var queryArray = query.substring(1).split("&");
+            for(var i = 0,len = queryArray.length; i < len; i++){
+                var queryArr = queryArray[i].split("=");
+                result[queryArr[0]] = queryArr[1];
+            }
+        }
+        if(pameter){
+            return this.isEmptyObject(result)? null: result[pameter];
+        }else {
+            return result;
+        }
+    },
+    isEmptyObject: function (obj) {
+        var t;
+        for (t in obj)
+            return !1;
+        return !0
+    }
+}

@@ -232,3 +232,21 @@ Array.prototype.each = function(fn){
 })(window);
 
 
+/**
+ * 格式化字符串 12345678 》》 12,345,678
+ * @param value
+ * @returns {String|string}
+ */
+function formateData (value){
+    try {
+        var data = value + "";
+        var len = parseInt(data.length/3) + 1;
+        var result = data.substring(0,(data.length%3));
+        for( var i = 1; i < len; i++ ){
+            result += "，" +  data.substring((data.length%3) + (3*(i - 1)), (data.length%3) + (3*(i - 1)) + 3);
+        }
+        return result;
+    }catch (e){
+        throw new Error(e);
+    }
+}

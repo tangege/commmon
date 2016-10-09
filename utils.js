@@ -1,29 +1,6 @@
 /**
  * Created by Administrator on 2016/9/30 0030.
  */
-//设置cookie
-Tan.setCookie = function(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setDate(d.getDate() + exdays);
-    var expires = "expires=" + d.toString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-    console.log(document.cookie);
-}
-//获取cookie
-Tan.getCookie = function(cname) {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-        var arr = cookies[i].split("=");
-        if (arr[0] == cname) {
-            return arr[1];
-        }
-    }
-    return "";
-}
-//清除cookie
-Tan.clearCookie = function(name) {
-    document.cookie = name + "=" + "" + "; expires=-1";
-}
 /**
  *获取类元素
  * @param {Object} oParent

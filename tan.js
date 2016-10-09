@@ -372,3 +372,28 @@ var URL = {
         return !0
     }
 }
+
+
+//设置cookie
+function setCookie (cname, cvalue, exdays) {
+    var d = new Date();
+    d.setDate(d.getDate() + exdays);
+    var expires = "expires=" + d.toString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+    console.log(document.cookie);
+}
+//获取cookie
+function getCookie (cname) {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var arr = cookies[i].split("=");
+        if (arr[0] == cname) {
+            return arr[1];
+        }
+    }
+    return "";
+}
+//清除cookie
+function clearCookie (name) {
+    document.cookie = name + "=" + "" + "; expires=-1";
+}

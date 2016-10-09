@@ -78,26 +78,31 @@ Array.prototype.for = function (fn) {
 //检索值在数组中的位置
 function indexOf (arr, value) {
     try {
+        var result = []
         for (var i = 0, len = arr.length; i < len; i++){
             if(value === arr[i]){
-                return i;
+                result.push(i);
             }
         }
-        return -1;
+        return result;
     }catch (e) {
         throw new Error(e);
     }
 }
 //值是否在数组中
 function isInArray (arr, value) {
-    return indexOf.call(this, arr, value) > -1? true: false;
+    return indexOf.call(this, arr, value).length? true: false;
 }
 
 //删除数组中的某个值
 function removeValue (arr, value) {
-    var index = indexOf(arr, value);
-    if(index !== -1) {
-        return arr.splice(index,1);
+    var indexs = indexOf(arr, value);
+    if(indexs.length){
+        for (var i = indexs.length - 1; i >= 0 ; i--){
+            arr.splice(indexs[i],1);
+        }
+        return true;
+    }else {
+        return false;
     }
-    return -1;
 }

@@ -91,6 +91,17 @@ function checkIE (){
     return result;
 }
 
+//判断点击le鼠标哪个键
+function whiceButton (e) {
+    if(e.button === 2){
+        return "right";
+    }else if((checkIE() == "IE7" || checkIE() == "IE8") && e.button === 1 || e.button === 0) {
+        return "left";
+    }else if((checkIE() == "IE7" || checkIE() == "IE8") && e.button === 4 || !(checkIE() == "IE7" || checkIE() == "IE8") && e.button === 1){
+        return "middle";
+    }
+    return "";
+}
 
 /**
  * 模仿jQuery ready事件
@@ -256,4 +267,18 @@ function stopPropagation (event) {
 //阻止默认行为
 function preventDefault (event) {
     event.preventDefault? event.preventDefault(): event.returnValue = false;
+}
+
+//获取位置
+function pos(e) {
+    var posx = 0;
+    var posy = 0;
+    if(e.pageX || e.pageY){
+        posx = e.pageX;
+        posy = e.pageY;
+    }else if(e.clientX || e.clientY) {
+        posx = e.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
+        posy = e.clientY + document.documentElement.scrollTop + document.body.scrollTop;
+    }
+    return [posx, posy];
 }

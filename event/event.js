@@ -248,3 +248,12 @@ var events = {
         return -1;
     }
 }
+
+//阻止冒泡行为
+function stopPropagation (event) {
+    event.stopPropagation? event.stopPropagation(): event.cancelBubble = true;
+}
+//阻止默认行为
+function preventDefault (event) {
+    event.preventDefault? event.preventDefault(): event.returnValue = false;
+}

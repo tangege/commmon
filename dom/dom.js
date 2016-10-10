@@ -235,3 +235,36 @@ function replace (obj, args) {
 function removeElement (obj) {
     obj.parentNode.removeChild(obj);
 }
+
+/**
+ * 获取元素距离页面顶部和左边的距离
+ * @param obj
+ * @returns {{top: (Number|number), left: (Number|number)}}
+ */
+function offset (obj) {
+    var top = obj.offsetTop;
+    var left = obj.offsetLeft;
+    while (obj.offsetParent !== document.body){
+        top += obj.offsetParent.offsetTop;
+        left += obj.offsetParent.offsetLeft;
+        obj = obj.offsetParent;
+    }
+    return {
+        top: top,
+        left: left
+    };
+}
+
+/**
+ * 相对父元素的top和left
+ * @param obj
+ * @returns {{top: (Number|number), left: (Number|number)}}
+ */
+function position (obj) {
+    var top = obj.offsetTop;
+    var left = obj.offsetLeft;
+    return {
+        top: top,
+        left: left
+    };
+}

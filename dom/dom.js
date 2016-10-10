@@ -156,3 +156,82 @@ function siblings (obj) {
     }
     return result;
 }
+
+/**
+ * 追加元素
+ * @param obj 父元素
+ * @param args 要追加的元素 可以是字符串 可以是dom
+ */
+function append (obj, args) {
+    if( typeof args === "string"){
+        obj.innerHTML += args;
+    }else if ( typeof args === "object"){
+        obj.appendChild(args);
+    }
+}
+
+/**
+ * 在父元素内部的前面追加元素
+ * @param obj 父元素
+ * @param args 要追加的元素 可以是字符串 可以是dom
+ */
+function preAppend (obj, args) {
+    if( typeof args === "string"){
+        obj.innerHTML = args + obj.innerHTML;
+    }else if ( typeof args === "object"){
+        obj.insertBefore(args, obj.firstChild);
+    }
+}
+
+/**
+ * 元素之后添加元素
+ * @param obj
+ * @param args
+ */
+function after (obj, args) {
+    if( typeof args === "string"){
+        var o = document.createElement("div");
+        arguments.callee.call(this, obj, o);
+        o.outerHTML = args;
+    }else if ( typeof args === "object"){
+        obj.parentNode.insertBefore(args, obj.nextSibling);
+    }
+}
+
+/**
+ * 元素之前添加元素
+ * @param obj
+ * @param args
+ */
+function before (obj, args) {
+    if( typeof args === "string"){
+        var o = document.createElement("div");
+        arguments.callee.call(this, obj, o);
+        o.outerHTML = args;
+    }else if ( typeof args === "object"){
+        obj.parentNode.insertBefore(args, obj);
+    }
+}
+
+/**
+ * 替换节点
+ * @param obj
+ * @param args
+ */
+function replace (obj, args) {
+    if( typeof args === "string"){
+        var o = document.createElement("div");
+        arguments.callee.call(this, obj, o);
+        o.outerHTML = args;
+    }else if ( typeof args === "object"){
+        obj.parentNode.replaceChild(args, obj);
+    }
+}
+
+/**
+ * 删除节点
+ * @param obj
+ */
+function removeElement (obj) {
+    obj.parentNode.removeChild(obj);
+}

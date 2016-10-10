@@ -373,14 +373,12 @@ var URL = {
     }
 }
 
-
 //设置cookie
-function setCookie (cname, cvalue, exdays) {
+function setCookie (cname, cvalue, exSeconds) {
     var d = new Date();
-    d.setDate(d.getDate() + exdays);
+    d.setSeconds(d.getSeconds() + exSeconds);
     var expires = "expires=" + d.toString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
-    console.log(document.cookie);
 }
 //获取cookie
 function getCookie (cname) {

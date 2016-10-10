@@ -32,7 +32,7 @@ function tag (tag) {
     return document.getElementsByTagName(tag);
 }
 
-//»ñÈ¡Ä³¸ö¶ÔÏóµÄËùÓĞÀà
+//è·å–å…ƒç´ çš„æ‰€æœ‰ç±»
 function getClass (obj) {
     var result = []
     var classes = obj.className.split(" ");
@@ -44,7 +44,7 @@ function getClass (obj) {
     return result;
 }
 
-//ÊÇ·ñ´æÔÚÄ³¸öÀà
+//æ˜¯å¦æœ‰æŸä¸ªç±»
 function hasClass (obj, classname){
     var result = getClass(obj);
     if(result.length){
@@ -52,7 +52,7 @@ function hasClass (obj, classname){
     }
 }
 
-//Ìí¼ÓÀà
+//æ·»åŠ ç±»
 function addClass (obj, classname) {
     var addClasses = classname.split(" ");
     var result = getClass(obj);
@@ -66,7 +66,7 @@ function addClass (obj, classname) {
     obj.className = result.join(" ");
 }
 
-//É¾³ıÀà
+//åˆ é™¤ç±»
 function removeClass (obj, classname) {
     var removeClasses = classname.split(" ");
     var result = getClass(obj);
@@ -109,7 +109,7 @@ function removeValue (arr, value) {
     }
 }
 
-//»ñÈ¡µÚÒ»¸ö×ÓÔªËØ
+//è·å–ç¬¬ä¸€ä¸ªå­å…ƒç´ 
 function firstChild ( obj ) {
     var children = obj.children;
     if(children && children.length) {
@@ -117,7 +117,7 @@ function firstChild ( obj ) {
     }
     return null;
 }
-//»ñÈ¡×îºóÒ»¸ö×ÓÔªËØ
+//è·å–æœ€åä¸€ä¸ªå­å…ƒç´ 
 function lastChild ( obj ) {
     var children = obj.children;
     if(children && children.length) {
@@ -125,7 +125,7 @@ function lastChild ( obj ) {
     }
     return null;
 }
-//»ñÈ¡ÏÂÒ»¸ö×ÓÔªËØ
+//è·å–ä¸‹ä¸€ä¸ªå…ƒç´ 
 function nextElement ( obj ) {
     if (obj.nextSibling.nodeType === 1){
         return obj.nextSibling;
@@ -134,7 +134,7 @@ function nextElement ( obj ) {
     }
 }
 
-//»ñÈ¡Ç°Ò»¸ö×ÓÔªËØ
+//è·å–å‰ä¸€ä¸ªå…ƒç´ 
 function prevElement ( obj ) {
     if (obj.previousSibling.nodeType === 1){
         return obj.previousSibling;
@@ -142,7 +142,7 @@ function prevElement ( obj ) {
         return arguments.callee(obj.previousSibling);
     }
 }
-//»ñÈ¡Í¬±²ÔªËØ
+//è·å–å…„å¼Ÿå…ƒç´ 
 function siblings (obj) {
     var result = [];
     console.log(obj.children);

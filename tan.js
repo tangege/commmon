@@ -395,3 +395,49 @@ function getCookie (cname) {
 function clearCookie (name) {
     document.cookie = name + "=" + "" + "; expires=-1";
 }
+
+
+/**
+ * map
+ * @constructor
+ */
+function Map () {
+    this.obj = new Object();
+}
+Map.prototype.put = function (key, value) {
+    try {
+        this.obj[key] = value;
+    }catch (e){
+        throw new Error(e);
+    }
+}
+Map.prototype.get = function ( key ) {
+    try {
+        if(typeof this.obj[key] === "undefined"){
+            return null;
+        }
+        return this.obj[key];
+    }catch (e){
+        throw new Error(e);
+    }
+}
+Map.prototype.remove = function ( key ) {
+    try {
+        if(typeof this.obj[key] !== "undefined"){
+            delete this.obj[key];
+        }
+    }catch (e){
+        throw new Error(e);
+    }
+}
+Map.prototype.each = function ( fn ) {
+    try {
+        if(fn && typeof fn === "function"){
+            for ( var attr in this.obj ){
+                fn.call(this, attr, this.obj[attr]);
+            }
+        }
+    }catch (e){
+        throw new Error(e);
+    }
+}

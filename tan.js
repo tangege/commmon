@@ -441,3 +441,38 @@ Map.prototype.each = function ( fn ) {
         throw new Error(e);
     }
 }
+
+
+//获取rgb值
+function getRGB (hex) {
+    var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+    if(reg.test(hex)){
+        var result = [];
+        if(hex.length === 4){
+            for (var i = 1; i < 4; i++){
+                result.push(parseInt("0x" + hex[i] + hex[i]));
+            }
+        }else {
+            for (var i = 1; i < 4; i++){
+                result.push(parseInt("0x" + hex.substring(2*i - 1,2*i + 1)));
+            }
+        }
+        return result.join(",");
+    }
+}
+
+//获取hex值
+function getHex (rgb) {
+    var result = "#";
+    var rgbArr = rgb.split(",");
+    if(rgbArr && rgbArr.length === 3){
+        for (var i = 0, len = rgbArr.length; i < len; i++){
+            var temp = parseInt(rgbArr[i]).toString(16);
+            if(temp < 10){
+                temp = "0" + temp;
+            }
+            result += temp;
+        }
+    }
+    return result;
+}

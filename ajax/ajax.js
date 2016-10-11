@@ -1,5 +1,8 @@
 /**
  * Created by Administrator on 2016/10/10 0010.
+ *
+ * ajax
+ *
  */
 function ajax (opts) {
     var xmlhttp;

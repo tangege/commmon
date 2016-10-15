@@ -476,3 +476,8 @@ function getHex (rgb) {
     }
     return result;
 }
+
+//反转字符串
+String.prototype.reverse = function () {
+    return Array.prototype.reverse.apply(this.split("")).join("");
+}

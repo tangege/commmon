@@ -31,25 +31,21 @@ function random (start, end){
 
 /**
  * 继承
+ * @param  {[type]} Child  [description]
+ * @param  {[type]} Parent [description]
+ * @return {[type]}        [description]
  */
-var extend = (function(){
-    var e = function(sub , sup){
-        var F = new Function();
-        F.prototype = sup.prototype;
-        sub.prototype = new F();
-        sub.prototype.constructor = sub;
-        sub.supClass = sup.prototype;
-        if(sup.prototype.constructor == Object.prototype.constructor){
-            sup.prototype.constructor = sup;
-        }
+function extend ( Child, Parent ) {
+    var F = new Function();
+    F.prototype = Parent.prototype;
+    Child.prototype = new F();
+    Child.prototype.constructor = Child;
+    Child.supClass = Parent.prototype;
+    if(Parent.prototype.constructor == Object.prototype.constructor){
+        Parent.prototype.constructor = Parent;
     }
-
-    return function(sub,sup){
-        e(sub,sup);
-    };
-
-})();
-
+}
+ 
 
 /**
  * 接口
@@ -251,42 +247,31 @@ function formateData (value){
     }
 }
 
-//是否数字
-function isNumber (value) {
-    if(typeof value === "number"){
-        return true;
-    }else if(typeof value === "object" && value.constructor === Number){
-        return true;
-    }else {
-        return false;
-    }
+var isType = function (obj, type) {
+    return Object.prototype.toString.call(obj) === "[object "+ type +"]";
 }
-//是否字符串
-function isString (value) {
-    if(typeof value === "string"){
-        return true;
-    }else if(typeof value === "object" && value.constructor === String){
-        return true;
-    }else {
-        return false;
-    }
+
+function isString (obj) {
+    return isType(obj, "String");
 }
-//是否数组
-function isArray (value) {
-    if( value.constructor === Array ){
-        return true;
-    }else {
-        return false;
-    }
+
+function isNumber (obj) {
+    return isType(obj, "Number");
 }
-//是否函数
-function isFunction (value) {
-    if( typeof value === "function" ){
-        return true;
-    }else {
-        return false;
-    }
+
+function isArray (obj) {
+    return isType(obj, "Array");
 }
+
+function isObject (obj) {
+    return isType(obj, "Object");
+}
+
+function isFunction (obj) {
+    return isType(obj, "Function");
+}
+
+
 //判断空对象
 function isEmptyObject (obj) {
     var t;

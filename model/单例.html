@@ -92,6 +92,21 @@
 
     })();
 
+    //分支单体
+    var isIE = true;
+    var obj = (function () {
+        
+        var ff = {
+            attr1: "ff"
+        }
+        var ie = {
+            attr1: "ff"
+        }
+
+        return isIE? ie: ff;
+
+    })()
+
 
 
 
